@@ -1,0 +1,94 @@
+<!-- templates/accounts/signup.html -->
+
+{% extends 'accounts/base.html' %} {% block content %}
+<h2>Sign Up</h2>
+<form method="post">
+  {% csrf_token %} {{ form.non_field_errors }}
+  <div class="form-group">
+    <label for="{{ form.username.id_for_label }}">Username:</label>
+    {{ form.username }} {{ form.username.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+    {{ form.first_name }} {{ form.first_name.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+    {{ form.last_name }} {{ form.last_name.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.mobile_number.id_for_label }}">Mobile Number:</label>
+    {{ form.mobile_number }} {{ form.mobile_number.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.email.id_for_label }}">Email:</label>
+    {{ form.email }} {{ form.email.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.password1.id_for_label }}">Password:</label>
+    {{ form.password1 }} {{ form.password1.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+    {{ form.password2 }} {{ form.password2.errors }}
+  </div>
+
+  <div class="form-group">
+    <label for="{{ form.user_type.id_for_label }}">User Type:</label>
+    {{ form.user_type }} {{ form.user_type.errors }}
+  </div>
+
+  <div id="owner-fields" class="form-group" style="display: none">
+    <label for="{{ form.owner_unique_id.id_for_label }}"
+      >Owner Unique ID:</label
+    >
+    {{ form.owner_unique_id }} {{ form.owner_unique_id.errors }}
+  </div>
+
+  <div id="tenant-fields" class="form-group" style="display: none">
+    <label for="{{ form.owner_id.id_for_label }}">Owner's ID:</label>
+    {{ form.owner_id }} {{ form.owner_id.errors }}
+  </div>
+
+  <div id="nid-fields" class="form-group" style="display: none">
+    <label for="{{ form.nid.id_for_label }}">NID:</label>
+    {{ form.nid }} {{ form.nid.errors }}
+  </div>
+
+  <button type="submit">Sign Up</button>
+</form>
+
+<script>
+  // Show/hide additional fields based on user type selection
+  const userTypeSelect = document.querySelector(
+    "#{{ form.user_type.id_for_label }}"
+  );
+  const ownerFieldsDiv = document.querySelector("#owner-fields");
+  const tenantFieldsDiv = document.querySelector("#tenant-fields");
+  const nidFieldsDiv = document.querySelector("#nid-fields");
+
+  userTypeSelect.addEventListener("change", () => {
+    const selectedUserType = userTypeSelect.value;
+
+    if (selectedUserType === "owner") {
+      ownerFieldsDiv.style.display = "block";
+      tenantFieldsDiv.style.display = "none";
+      nidFieldsDiv.style.display = "block";
+    } else if (selectedUserType === "tenant") {
+      ownerFieldsDiv.style.display = "none";
+      tenantFieldsDiv.style.display = "block";
+      nidFieldsDiv.style.display = "block";
+    } else {
+      ownerFieldsDiv.style.display = "none";
+      tenantFieldsDiv.style.display = "none";
+      nidFieldsDiv.style.display = "none";
+    }
+  });
+</script>
+{% endblock %}

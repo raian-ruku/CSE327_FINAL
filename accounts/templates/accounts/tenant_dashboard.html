@@ -1,0 +1,12 @@
+{% extends 'accounts/base.html' %} {% block content %}
+<h1>Tenant Dashboard</h1>
+<h2>Maintenance Requests</h2>
+<ul>
+  {% for maintenance_request in maintenance_requests %}
+  <li>{{ maintenance_request.subject }}</li>
+  {% empty %}
+  <li>No maintenance requests</li>
+  {% endfor %}
+</ul>
+<!-- Add other sections as per your requirements -->
+{% endblock %}

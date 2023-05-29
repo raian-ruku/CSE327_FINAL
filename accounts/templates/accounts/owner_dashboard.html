@@ -1,0 +1,14 @@
+{% extends 'accounts/base.html' %} {% block content %}
+<h2>Owner Dashboard</h2>
+<a href="{% url 'vacancy_posting' %}" class="btn btn-primary">Post Vacancy</a>
+<a href="{% url 'posted_vacancies' %}" class="btn btn-primary"
+  >Posted Vacancies</a
+>
+
+<h2>Owner Information</h2>
+<p>Owner Name: {{ owner.first_name }} {{ owner.last_name }}</p>
+<p>Owner Email: {{ owner.email }}</p>
+
+<a href="{% url 'tenant-detail' %}" class="button">View Tenant Information</a>
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'accounts/base.html' %} {% block content %} {% load static %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'accounts/profile.css' %}"
+/>
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>Hello, {{ first_name }}</h1>
+    <p class="profile-username">{{ username }}</p>
+    <p class="profile-email">{{ email }}</p>
+    <p class="profile-user-type">User Type: {{ user_type }}</p>
+  </div>
+
+  {% if user_type == 'owner' %}
+  <!-- Owner-specific UI -->
+  <div class="owner-section">
+    <h2 class="owner-section-title">All Apartments</h2>
+    {% if apartments %}
+    <div class="apartment-container">
+      {% for apartment in apartments %}
+      <div class="apartment-item">
+        <h3 class="apartment-address">{{ apartment.address }}</h3>
+        <p class="apartment-rent">Rent: ${{ apartment.rent }}</p>
+        <p class="apartment-description">{{ apartment.short_description }}</p>
+        <a
+          href="{% url 'apartment_details' apartment.id %}"
+          class="details-button"
+          >View Details</a
+        >
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-apartments-message">No apartments available.</p>
+    {% endif %}
+  </div>
+  {% elif user_type == 'tenant' %}
+  <!-- Tenant-specific UI -->
+  <div class="tenant-section">
+    <h2 class="tenant-section-title">Owner Information</h2>
+    <p class="owner-username">Owner: {{ owner.username }}</p>
+    <p class="owner-email">Owner Email: {{ owner.email }}</p>
+    <p class="owner-first-name">Owner First Name: {{ owner.first_name }}</p>
+    <p class="owner-last-name">Owner Last Name: {{ owner.last_name }}</p>
+    <p class="owner-mobile-number">
+      Owner Mobile Number: {{ owner.mobile_number }}
+    </p>
+    <!-- Include other owner-related fields as needed -->
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

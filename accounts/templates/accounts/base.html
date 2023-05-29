@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Apartment Management System</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'accounts/style.css' %}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Apartment Management System</h1>
+      <!-- Add navigation links as per your requirements -->
+    </header>
+    <main>{% block content %} {% endblock %}</main>
+    <footer>
+      <!-- Add footer content as per your requirements -->
+    </footer>
+    <!-- templates/accounts/base.html -->
+
+    <!-- Other content -->
+
+    {% if not user.is_authenticated %}
+    <a href="{% url 'login' %}">Sign In</a>
+    {% else %}
+    <a href="{% url 'home' %}">Logout</a>
+    {% endif %}
+
+    <!-- Other content -->
+  </body>
+</html>

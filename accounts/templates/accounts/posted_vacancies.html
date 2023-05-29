@@ -1,0 +1,16 @@
+{% extends 'accounts/base.html' %} {% block content %}
+<h1>Posted Vacancies</h1>
+{% if vacancies %}
+<ul>
+  {% for vacancy in vacancies %}
+  <li>
+    <strong>Address:</strong> {{ vacancy.address }}<br />
+    <strong>Rent:</strong> {{ vacancy.rent }}<br />
+    <strong>Status:</strong> {% if vacancy.is_vacant %}Vacant{% else
+    %}Occupied{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No vacancies posted.</p>
+{% endif %} {% endblock %}

@@ -1,0 +1,108 @@
+/* custom.css */
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-username {
+  font-size: 24px;
+  color: #ff4081;
+  margin-bottom: 8px;
+}
+
+.profile-email {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.profile-user-type {
+  font-size: 16px;
+  color: #ff4081;
+  margin-top: 20px;
+}
+
+.owner-section,
+.tenant-section {
+  margin-top: 40px;
+}
+
+.owner-section-title,
+.tenant-section-title {
+  font-size: 20px;
+  color: #ff4081;
+  margin-bottom: 16px;
+}
+
+.apartment-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.apartment-item {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.apartment-address {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.apartment-rent {
+  font-size: 16px;
+  color: #ff4081;
+  margin-bottom: 8px;
+}
+
+.apartment-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.details-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ff4081;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.details-button:hover {
+  background-color: #e63b6f;
+}
+
+.no-apartments-message {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.owner-username,
+.owner-email,
+.owner-first-name,
+.owner-last-name,
+.owner-mobile-number {
+  font-size: 16px;
+  color: #ff4081;
+  margin-bottom: 8px;
+}
+
+/* Add more custom styles as needed */
