@@ -67,7 +67,7 @@ class WebUser(AbstractBaseUser):
 
 
 class Apartment(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(WebUser, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
     rent = models.DecimalField(max_digits=10, decimal_places=2)
     area = models.CharField(max_length=255)

@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.forms import UserCreationForm
@@ -88,24 +89,7 @@ class SignInView(LoginView):
 
         return reverse('profile')  # Replace 'profile' with the actual URL name for the profile page
 
-class OwnerDashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/owner_dashboard.html'
 
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.user_type == 'owner':
-            return super().get(request, *args, **kwargs)
-        else:
-            return redirect('owner_dashboard') # Redirect to the signin page or any other appropriate URL
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['accounts'] = Apartment.objects.filter(owner=self.request.user)
-        return context
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['accounts'] = Apartment.objects.filter(owner=self.request.user)
-        return context
 class ApartmentDetailsView(DetailView):
     model = Apartment
     template_name = 'accounts/apartment_details.html'
@@ -118,26 +102,16 @@ def posted_vacancies(request):
 class VacancyPostingView(LoginRequiredMixin, CreateView):
     form_class = VacancyPostingForm
     template_name = 'accounts/vacancy_posting.html'
-    success_url = '/owner/dashboard/'  # Update with the appropriate URL
 
     def form_valid(self, form):
         apartment = form.save(commit=False)
-        apartment.owner = self.request.user
-
-        
-
+        apartment.owner = WebUser.objects.get(username=self.request.user.username)
         apartment.save()
-        form.save_m2m()
-        return super().form_valid(form)
-    
-class TenantDashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/tenant_dashboard.html'
+        return HttpResponseRedirect(reverse('profile'))
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['maintenance_requests'] = MaintenanceRequest.objects.filter(tenant__user=self.request.user)
-        # Add any other data you want to pass to the template
-        return context
+    def get_success_url(self):
+        return reverse('profile')
+    
 
 class MaintenanceRequestView(LoginRequiredMixin, CreateView):
     model = MaintenanceRequest
@@ -149,11 +123,17 @@ class MaintenanceRequestView(LoginRequiredMixin, CreateView):
         tenant = Tenant.objects.get(user=self.request.user)
         form.instance.tenant = tenant
         return super().form_valid(form)
-def TenantDetailView(request):
-    owner_unique_id = request.user.owner_unique_id
-    tenant = WebUser.objects.get(owner_unique_id=owner_unique_id).tenant
-    context = {'tenant': tenant}
-    return render(request, 'accounts/tenant_detail.html', context)
+    
+def tenants_list(request):
+    owner = WebUser.objects.get(username=request.user.username, user_type='owner')
+    tenants = WebUser.objects.filter(owner_id=owner.owner_unique_id)
+
+    context = {
+        'tenants': tenants,
+    }
+
+    return render(request, 'accounts/tenants_list.html', context)
+
 
 def logout_view(request):
     logout(request)

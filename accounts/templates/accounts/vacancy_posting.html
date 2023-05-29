@@ -1,7 +1,20 @@
-{% extends 'accounts/base.html' %} {% block content %}
-<h2>Vacancy Posting</h2>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+{% extends 'accounts/base.html' %} {% load static %} {% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'accounts/vacancy.css' %}"
+/>
+<div class="vacancy-posting-container">
+  <h2 class="vacancy-posting-title">Vacancy Posting</h2>
+  <form
+    method="post"
+    enctype="multipart/form-data"
+    class="vacancy-posting-form"
+  >
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary vacancy-posting-button">
+      Submit
+    </button>
+  </form>
+</div>
 {% endblock %}

@@ -1,0 +1,32 @@
+/* Assuming you have a static CSS file linked to your HTML template */
+
+.vacancy-posting-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vacancy-posting-title {
+  color: #333;
+}
+
+.vacancy-posting-form {
+  margin-top: 20px;
+}
+
+.vacancy-posting-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.vacancy-posting-button:hover {
+  background-color: #0056b3;
+}
+
+/* Additional styling as needed */

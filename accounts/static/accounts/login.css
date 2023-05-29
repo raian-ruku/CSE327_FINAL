@@ -1,0 +1,49 @@
+/* custom.css */
+.signin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('path/to/background-image.jpg');
+  background-size: cover;
+}
+
+.signin-card {
+  max-width: 400px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.signin-title {
+  font-size: 24px;
+  color: #ff4081;
+  margin-bottom: 16px;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signin-form p {
+  margin-bottom: 16px;
+}
+
+.signin-button {
+  padding: 12px 24px;
+  background-color: #ff4081;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signin-button:hover {
+  background-color: #e63b6f;
+}
+
+/* Include Material Design CSS or custom styles to further enhance the design */

@@ -6,10 +6,11 @@ main {
   padding: 20px;
 }
 
-.apartments-container {
+.accounts-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: -10px; /* Add negative margin to create spacing between apartment items */
 }
 
 .apartment-item {
@@ -20,6 +21,7 @@ main {
   padding: 20px;
   width: calc(33.33% - 20px); /* Adjust the width as per your preference */
   box-sizing: border-box;
+  margin: 10px; /* Add margin to create spacing between apartment items */
 }
 
 .apartment-item:hover {

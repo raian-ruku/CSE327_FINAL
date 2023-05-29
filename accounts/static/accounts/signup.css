@@ -1,0 +1,68 @@
+/* static/accounts/style.css */
+
+/* Navigation bar */
+.navbar {
+  background-color: #2196F3;
+  color: #FFF;
+  padding: 15px;
+}
+
+.navbar-link {
+  color: #FFF;
+  text-decoration: none;
+  margin-right: 15px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar-link:hover {
+  text-decoration: underline;
+}
+
+/* Form styling */
+.signup-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+.signup-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #2196f3;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Additional fields styling */
+#owner-fields,
+#tenant-fields,
+#nid-fields {
+  display: none;
+}
+
+/* Other styles as per your requirement */

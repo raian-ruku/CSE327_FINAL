@@ -1,9 +1,19 @@
 <!-- templates/accounts/signup.html -->
 
-{% extends 'accounts/base.html' %} {% block content %}
+{% extends 'accounts/base.html' %} {% load static %} {% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'accounts/signup.css' %}"
+/>
+<nav class="navbar">
+  <a href="{% url 'home' %}" class="navbar-link">Home</a>
+  <a href="{% url 'login' %}" class="navbar-link">Sign In</a>
+</nav>
 <h2>Sign Up</h2>
-<form method="post">
+<form method="post" class="signup-form">
   {% csrf_token %} {{ form.non_field_errors }}
+
   <div class="form-group">
     <label for="{{ form.username.id_for_label }}">Username:</label>
     {{ form.username }} {{ form.username.errors }}
@@ -61,7 +71,7 @@
     {{ form.nid }} {{ form.nid.errors }}
   </div>
 
-  <button type="submit">Sign Up</button>
+  <button type="submit" class="signup-button">Sign Up</button>
 </form>
 
 <script>

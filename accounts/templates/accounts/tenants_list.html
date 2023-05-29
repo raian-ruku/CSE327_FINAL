@@ -1,0 +1,12 @@
+<!-- templates/accounts/tenants_list.html -->
+{% extends 'accounts/base.html' %} {% block content %}
+<h2>Tenants List</h2>
+{% if tenants %}
+<ul>
+  {% for tenant in tenants %}
+  <li>{{ tenant.first_name }} {{ tenant.last_name }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No tenants found.</p>
+{% endif %} {% endblock %}

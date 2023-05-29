@@ -1,4 +1,5 @@
-{% extends 'accounts/base.html' %} {% block content %} {% load static %}
+<!-- templates/accounts/profile.html -->
+{% extends 'accounts/base.html' %} {% load static %} {% block content %}
 <link
   rel="stylesheet"
   type="text/css"
@@ -34,7 +35,15 @@
     {% else %}
     <p class="no-apartments-message">No apartments available.</p>
     {% endif %}
+
+    <a href="{% url 'tenants_list' %}" class="tenants-list-button"
+      >View Tenants List</a
+    >
+    <a href="{% url 'vacancy_posting' %}" class="post-vacancy-button"
+      >Post Vacancy</a
+    >
   </div>
+
   {% elif user_type == 'tenant' %}
   <!-- Tenant-specific UI -->
   <div class="tenant-section">
