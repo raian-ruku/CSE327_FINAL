@@ -1,0 +1,22 @@
+<!-- templates/accounts/apartment_edit.html -->
+
+{% load static %}
+
+{% block content %}
+  <h1>Edit Apartment</h1>
+  
+  <form method="post">
+    {% csrf_token %}
+    <label for="address">Address:</label>
+    <input type="text" name="address" id="address" value="{{ apartment.address }}" required>
+    
+    <label for="rent">Rent:</label>
+    <input type="number" name="rent" id="rent" value="{{ apartment.rent }}" required>
+    
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" required>{{ apartment.short_description }}</textarea>
+    
+    <button type="submit">Save Changes</button>
+  </form>
+  
+{% endblock %}

@@ -1,98 +1,106 @@
-/* custom.css */
+/* static/accounts/profile.css */
+
+body {
+  background-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
 .profile-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 40px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  background-color: #000;
+  color: #fff;
+  padding: 2rem;
+}
+
+.navbar {
+  background-color: #111;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 1rem;
+  font-size: 16px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
 }
 
 .profile-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .profile-username {
   font-size: 24px;
-  color: #ff4081;
-  margin-bottom: 8px;
 }
 
 .profile-email {
   font-size: 16px;
-  color: #666;
-  margin-bottom: 16px;
+  opacity: 0.8;
 }
 
-.profile-user-type {
-  font-size: 16px;
-  color: #ff4081;
-  margin-top: 20px;
-}
-
-.owner-section,
-.tenant-section {
-  margin-top: 40px;
-}
-
-.owner-section-title,
-.tenant-section-title {
+.owner-section-title {
   font-size: 20px;
-  color: #ff4081;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .apartment-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .apartment-item {
-  padding: 16px;
-  background-color: #fff;
+  background-color: #111;
+  padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .apartment-address {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 8px;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
 }
 
 .apartment-rent {
-  font-size: 16px;
-  color: #ff4081;
-  margin-bottom: 8px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
 .apartment-description {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 16px;
-}
-
-.details-button {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #ff4081;
   color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  font-size: 14px;
+  margin-bottom: 1rem;
 }
 
-.details-button:hover {
-  background-color: #e63b6f;
+.details-button,
+.edit-button,
+.delete-button {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #111;
 }
 
 .no-apartments-message {
+  color: #fff;
   font-size: 16px;
-  color: #666;
-  text-align: center;
-  margin-top: 40px;
 }
 
 .owner-username,
@@ -100,9 +108,20 @@
 .owner-first-name,
 .owner-last-name,
 .owner-mobile-number {
-  font-size: 16px;
-  color: #ff4081;
-  margin-bottom: 8px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
-/* Add more custom styles as needed */
+.tenant-section-title {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 1rem;
+}
+
+/* Additional styling as per your requirements */
+
+/* Hide navbar for tenant section */
+.tenant-section .navbar {
+  display: none;
+}

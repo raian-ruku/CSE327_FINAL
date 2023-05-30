@@ -3,7 +3,7 @@ import base64
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import WebUser, Apartment
+from .models import MaintenanceRequest, WebUser, Apartment
 from django.contrib.auth.forms import AuthenticationForm
 
 USER_TYPE_CHOICES = [
@@ -63,3 +63,10 @@ class WebUserLoginForm(AuthenticationForm):
             if self.user_cache is None or not self.user_cache.check_password(password):
                 raise forms.ValidationError('Invalid email/username or password.')
         return self.cleaned_data 
+    
+
+
+class MaintenanceRequestForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceRequest
+        fields = ['subject', 'message']

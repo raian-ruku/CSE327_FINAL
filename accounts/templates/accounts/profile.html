@@ -1,47 +1,53 @@
 <!-- templates/accounts/profile.html -->
-{% extends 'accounts/base.html' %} {% load static %} {% block content %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'accounts/profile.css' %}"
-/>
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/profile.css' %}" />
 <div class="profile-container">
+  {% if user_type == 'owner' %}
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'tenants_list' %}" class="navbar-link">View Tenants List</a>
+      <a href="{% url 'vacancy_posting' %}" class="navbar-link">Post Vacancy</a>
+      <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
+    </div>
+    <div class="navbar-right">
+      
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
+  {% endif %}
+
   <div class="profile-header">
-    <h1>Hello, {{ first_name }}</h1>
-    <p class="profile-username">{{ username }}</p>
+    <h1 class="profile-username">{{ first_name }} {{ last_name }}</h1>
     <p class="profile-email">{{ email }}</p>
-    <p class="profile-user-type">User Type: {{ user_type }}</p>
   </div>
 
   {% if user_type == 'owner' %}
   <!-- Owner-specific UI -->
   <div class="owner-section">
-    <h2 class="owner-section-title">All Apartments</h2>
+    <h2 class="owner-section-title">Your Apartments</h2>
     {% if apartments %}
     <div class="apartment-container">
       {% for apartment in apartments %}
+      {% if apartment.owner.username == username %}
       <div class="apartment-item">
         <h3 class="apartment-address">{{ apartment.address }}</h3>
-        <p class="apartment-rent">Rent: ${{ apartment.rent }}</p>
+        <p class="apartment-rent">Rent: ৳{{ apartment.rent }}</p>
         <p class="apartment-description">{{ apartment.short_description }}</p>
-        <a
-          href="{% url 'apartment_details' apartment.id %}"
-          class="details-button"
-          >View Details</a
-        >
+        <a href="{% url 'apartment_details' apartment.id %}" class="details-button">View Details</a>
+        <a href="{% url 'apartment_edit' apartment.id %}" class="edit-button">Edit</a>
+        <a href="{% url 'apartment_delete' apartment.id %}" class="delete-button">Delete</a>
       </div>
+      {% endif %}
       {% endfor %}
     </div>
     {% else %}
     <p class="no-apartments-message">No apartments available.</p>
     {% endif %}
-
-    <a href="{% url 'tenants_list' %}" class="tenants-list-button"
-      >View Tenants List</a
-    >
-    <a href="{% url 'vacancy_posting' %}" class="post-vacancy-button"
-      >Post Vacancy</a
-    >
+    
   </div>
 
   {% elif user_type == 'tenant' %}
@@ -52,10 +58,9 @@
     <p class="owner-email">Owner Email: {{ owner.email }}</p>
     <p class="owner-first-name">Owner First Name: {{ owner.first_name }}</p>
     <p class="owner-last-name">Owner Last Name: {{ owner.last_name }}</p>
-    <p class="owner-mobile-number">
-      Owner Mobile Number: {{ owner.mobile_number }}
-    </p>
+    <p class="owner-mobile-number">Owner Mobile Number: {{ owner.mobile_number }}</p>
     <!-- Include other owner-related fields as needed -->
+    <a href="{% url 'make_request' %}" class="make-request-button">Make Maintenance Request</a>
   </div>
   {% endif %}
 </div>

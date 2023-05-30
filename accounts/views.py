@@ -1,14 +1,14 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import Apartment, Tenant, MaintenanceRequest
+from .models import Apartment, Tenant, MaintenanceRequest, Chat, Message
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from .forms import UserSignUpForm
+from .forms import MaintenanceRequestForm, UserSignUpForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Apartment
 from .forms import VacancyPostingForm
@@ -17,13 +17,16 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import WebUserLoginForm
 from django.urls import reverse
+from notifications.signals import notify
+from notifications.models import Notification
 
+ 
 from django.contrib.auth import logout
 from django.views.generic import DetailView
 from django.views import View
 
 
-class HomePageView(LoginRequiredMixin, ListView):
+class HomePageView(ListView):
     model = Apartment
     template_name = 'accounts/home.html'
     context_object_name = 'accounts'
@@ -113,16 +116,43 @@ class VacancyPostingView(LoginRequiredMixin, CreateView):
         return reverse('profile')
     
 
-class MaintenanceRequestView(LoginRequiredMixin, CreateView):
-    model = MaintenanceRequest
-    fields = ['subject', 'description']
-    template_name = 'accounts/maintenance_request.html'
-    success_url = reverse_lazy('tenant_dashboard')
+@login_required
+def make_request(request):
+    if request.method == 'POST':
+        form = MaintenanceRequestForm(request.POST)
+        if form.is_valid():
+            maintenance_request = form.save(commit=False)
+            maintenance_request.tenant = request.user
 
-    def form_valid(self, form):
-        tenant = Tenant.objects.get(user=self.request.user)
-        form.instance.tenant = tenant
-        return super().form_valid(form)
+            # Get the owner of the tenant
+            try:
+                owner = WebUser.objects.get(owner_unique_id=maintenance_request.tenant.owner_id)
+                maintenance_request.owner = owner
+            except WebUser.DoesNotExist:
+                # Handle the case when the owner doesn't exist
+                # You can raise an exception, redirect to an error page, or take any other appropriate action
+                pass
+
+            maintenance_request.save()
+            return redirect('profile')
+    else:
+        form = MaintenanceRequestForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/make_request.html', context)
+
+
+@login_required
+def owner_requests(request):
+    owner = request.user
+    owner_requests = MaintenanceRequest.objects.filter(owner=owner).order_by('-created_at')
+
+    context = {
+        'owner_requests': owner_requests,
+    }
+    return render(request, 'accounts/owner_requests.html', context)
     
 def tenants_list(request):
     owner = WebUser.objects.get(username=request.user.username, user_type='owner')
@@ -134,19 +164,92 @@ def tenants_list(request):
 
     return render(request, 'accounts/tenants_list.html', context)
 
+def apartment_list(request):
+    owner = WebUser.objects.get(username=request.user.username)
+    posted_apartment = Apartment.objects.filter(owner=owner.username)
+
+    context = {
+        'posted_apartment' : posted_apartment,
+        }
+    
+    return render(request, 'accounts/profile.html')
+
+def apartment_edit(request, apartment_id):
+    apartment = get_object_or_404(Apartment, id=apartment_id)
+    
+    if request.method == 'POST':
+        # Handle the form submission to update the apartment
+        # Retrieve the updated data from the form and save it to the apartment object
+        # Example:
+        apartment.address = request.POST['address']
+        apartment.rent = request.POST['rent']
+        apartment.short_description = request.POST['description']
+        apartment.save()
+        
+        return redirect('apartment_details', apartment_id=apartment_id)
+    
+    context = {
+        'apartment': apartment
+    }
+    
+    return render(request, 'accounts/apartment_edit.html', context)
+
+@login_required
+def tenant_details(request, username):
+    tenant = get_object_or_404(WebUser, username=username)
+
+    context = {
+        'tenant': tenant,
+    }
+
+    return render(request, 'accounts/tenant_details.html', context)
+
+def chat(request, chat_id):
+    chat = Chat.objects.get(id=chat_id)
+    messages = Message.objects.filter(chat=chat).order_by('timestamp')
+
+    context = {
+        'chat': chat,
+        'messages': messages,
+    }
+
+    return render(request, 'accounts/chat.html', context)
+
+
+@login_required
+def start_chat(request, username):
+    owner = request.user
+    tenant = get_object_or_404(WebUser, username=username)
+
+    # Check if the current user is the owner
+    if owner.user_type == 'owner':
+        # Create a chat between the owner and tenant
+        chat = Chat.objects.create(owner=owner, tenant=tenant)
+        return redirect('chat', chat_id=chat.id)
+
+    return HttpResponseForbidden("You are not authorized to start a chat.")
+
+
+@login_required
+def apartment_delete(request, pk):
+    apartment = get_object_or_404(Apartment, pk=pk)
+
+    # Check if the logged-in user is the owner of the apartment
+    if request.user == apartment.owner:
+        # Delete the apartment
+        apartment.delete()
+        # Redirect to a success page or any other desired page
+        return redirect('profile')
+    else:
+        # Handle unauthorized access or show an error message
+        return redirect('apartment_details', pk=pk) 
 
 def logout_view(request):
     logout(request)
     return redirect(reverse('home'))
-@login_required
-def send_notification(request):
-    # Handle notification sending logic here
-    pass
 
-@login_required
-def chat(request):
-    # Handle chat functionality here
-    pass
+
+
 
 
 @login_required
@@ -162,6 +265,9 @@ def profile(request):
 
     # Retrieve the owner information
     owner = WebUser.objects.filter(owner_unique_id=web_user.owner_id).first()
+    apartments = Apartment.objects.filter(owner__username=username)
+    # Get the chat associated with the tenant
+    chat = Chat.objects.filter(tenant=web_user).first()
 
     context = {
         'username': username,
@@ -170,10 +276,14 @@ def profile(request):
         'last_name': last_name,
         'mobile_number': mobile_number,
         'user_type': user_type,
-        'owner': owner,  # Pass the owner information to the template
+        'owner': owner,
+        'apartments': apartments,  # Pass the apartments to the template
+        'chat': chat,  # Pass the chat object to the template
     }
 
     return render(request, 'accounts/profile.html', context)
+
+
 
 
 

@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/maintenance.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <title>Maintenance Requests</title>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+    </div>
+    <div class="navbar-right">
+      <a href="{% url 'logout' %}" class="navbar-link">Logout</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Maintenance Requests</h1>
+    {% if owner_requests %}
+      <ul>
+        {% for request in owner_requests %}
+          <li>
+            <strong>Subject:</strong> {{ request.subject }}<br>
+            <strong>Tenant:</strong> {{ request.tenant }}<br>
+            <strong>Message:</strong> {{ request.message }}<br>
+            <strong>Created at:</strong> {{ request.created_at }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No maintenance requests found.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+/* static/accounts/maintenance.css */
+
+/* Reset default browser styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
+.navbar {
+  background-color: #111;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  margin-right: 1rem;
+}
+
+.navbar-right {
+  margin-left: auto;
+}
+
+.content {
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+/* Additional styling as per your requirements */

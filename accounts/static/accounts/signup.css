@@ -1,68 +1,84 @@
-/* static/accounts/style.css */
+/* static/accounts/signup.css */
 
-/* Navigation bar */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body {
+  background-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
 .navbar {
-  background-color: #2196F3;
-  color: #FFF;
-  padding: 15px;
+  background-color: #111;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .navbar-link {
-  color: #FFF;
+  color: #fff;
   text-decoration: none;
-  margin-right: 15px;
-  font-family: 'Roboto', sans-serif;
+  margin-left: 1rem;
+  font-size: 16px;
 }
 
-.navbar-link:hover {
-  text-decoration: underline;
+h2 {
+  color: #fff;
+  font-size: 24px;
+  margin-bottom: 1rem;
 }
 
-/* Form styling */
 .signup-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px; /* Set a maximum width for the form */
+  margin: 0 auto; /* Center the form horizontally */
 }
 
 .form-group {
-  margin-bottom: 20px;
+  text-align: left; /* Center the form group content horizontally */
+  margin-bottom: 1rem;
 }
 
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+label {
+  color: #fff;
+  font-size: 16px;
 }
 
-.form-group input,
-.form-group select {
+input[type='text'],
+input[type='email'],
+input[type='password'],
+select {
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 16px;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
 }
 
 .signup-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #2196f3;
-  color: #ffffff;
+  display: block; /* Center the button horizontally */
+  margin: 0 auto;
+    background-color: #007bff; /* Material Design primary color */
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 0 auto; /* Center the button horizontally */
 }
 
-/* Additional fields styling */
+.signup-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
 #owner-fields,
 #tenant-fields,
 #nid-fields {
   display: none;
 }
 
-/* Other styles as per your requirement */
+/* Additional styling as per your requirements */

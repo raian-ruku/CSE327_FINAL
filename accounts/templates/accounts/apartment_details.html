@@ -1,5 +1,5 @@
 <!-- templates/accounts/apartment_details.html -->
-{% extends 'accounts/base.html' %} {% block content %} {% load static %}
+ {% block content %} {% load static %}
 <link
   rel="stylesheet"
   type="text/css"
@@ -12,7 +12,7 @@
       <h3 class="address">{{ apartment.address }}</h3>
     </div>
     <div class="card-body">
-      <p class="rent">Rent: ${{ apartment.rent }}</p>
+      <p class="rent">Rent: ৳{{ apartment.rent }}</p>
       <p class="area">Area: {{ apartment.area }}</p>
       <p class="bedrooms">Bedrooms: {{ apartment.bedrooms }}</p>
       <p class="washrooms">Washrooms: {{ apartment.washrooms }}</p>

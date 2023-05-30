@@ -1,0 +1,28 @@
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/td.css' %}">
+<div class="details-container">
+<nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'tenants_list' %}" class="navbar-link">View Tenants List</a>
+      <a href="{% url 'vacancy_posting' %}" class="navbar-link">Post Vacancy</a>
+      <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
+    </div>
+    <div class="navbar-right">
+      
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
+  <h1 class="page-title">Tenant Details</h1>
+  <ul class="tenant-details">
+    <li><strong>First Name:</strong> {{ tenant.first_name }}</li>
+    <li><strong>Last Name:</strong> {{ tenant.last_name }}</li>
+    <li><strong>Email:</strong> {{ tenant.email }}</li>
+    <!-- Include other tenant-related fields as needed -->
+  </ul>
+
+  <a href="{% url 'start_chat' tenant.username %}" class="chat-button">Start Chat</a>
+  </div>
+{% endblock %}

@@ -1,12 +1,25 @@
-<!-- templates/accounts/tenants_list.html -->
-{% extends 'accounts/base.html' %} {% block content %}
-<h2>Tenants List</h2>
-{% if tenants %}
-<ul>
-  {% for tenant in tenants %}
-  <li>{{ tenant.first_name }} {{ tenant.last_name }}</li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No tenants found.</p>
-{% endif %} {% endblock %}
+
+{% load static %}
+{% block content %}
+  
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/tl.css' %}">
+ <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+    </div>
+    <div class="navbar-right">
+      <a href="{% url 'logout' %}" class="navbar-link">Logout</a>
+    </div>
+  </nav>
+  <h1 class="page-title">Tenants List</h1>
+  <ul class="tenant-list">
+    {% for tenant in tenants %}
+      <li class="tenant-item">
+        <a href="{% url 'tenant_details' tenant.username %}" class="tenant-name">{{ tenant.first_name }} {{ tenant.last_name }}</a>
+      </li>
+    {% empty %}
+      <li class="no-tenants">No tenants found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+
+
+{% block content %}
+  <h1>Owner Notifications</h1>
+  <ul>
+    {% for notification in notifications %}
+      <li>
+        {% if notification.verb == 'maintenance_request' %}
+          <p>{{ notification.actor }} has submitted a maintenance request:</p>
+          <p>Subject: {{ notification.target.subject }}</p>
+          <p>Message: {{ notification.target.message }}</p>
+          <p>Created at: {{ notification.target.created_at }}</p>
+        {% endif %}
+      </li>
+    {% empty %}
+      <p>No notifications.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}

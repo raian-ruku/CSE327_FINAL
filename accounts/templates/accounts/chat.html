@@ -1,0 +1,26 @@
+
+
+{% block content %}
+  <h1>Chat</h1>
+  <div class="messages-container">
+    {% for message in messages %}
+      {% if message.sender == user %}
+        <div class="sent-message">
+          <p>{{ message.content }}</p>
+          <span class="message-timestamp">{{ message.timestamp }}</span>
+        </div>
+      {% else %}
+        <div class="received-message">
+          <p>{{ message.content }}</p>
+          <span class="message-timestamp">{{ message.timestamp }}</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <form method="post" action="{% url 'send_message' chat.id %}">
+    {% csrf_token %}
+    <input type="text" name="content" placeholder="Type your message..." required>
+    <button type="submit">Send</button>
+  </form>
+{% endblock %}

@@ -1,20 +1,20 @@
-{% extends 'accounts/base.html' %} {% load static %} {% block content %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'accounts/vacancy.css' %}"
-/>
+<!-- templates/accounts/vacancy_posting.html -->
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/vacancy.css' %}" />
 <div class="vacancy-posting-container">
+  <nav class="navbar">
+    <a href="{% url 'home' %}" class="navbar-link">Home</a>
+    <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+    <div class="navbar-right">
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
   <h2 class="vacancy-posting-title">Vacancy Posting</h2>
-  <form
-    method="post"
-    enctype="multipart/form-data"
-    class="vacancy-posting-form"
-  >
+  <form method="post" enctype="multipart/form-data" class="vacancy-posting-form">
     {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-primary vacancy-posting-button">
-      Submit
-    </button>
+    <button type="submit" class="btn btn-primary vacancy-posting-button">Submit</button>
   </form>
 </div>
 {% endblock %}

@@ -1,17 +1,16 @@
 <!-- templates/accounts/signin.html -->
-{% extends 'accounts/base.html' %} {% load static %} {% block content %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'accounts/login.css' %}"
-/>
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/login.css' %}" />
 <div class="signin-container">
   <div class="signin-card">
     <h2 class="signin-title">Sign In</h2>
     <form method="post" class="signin-form">
-      {% csrf_token %} {{ form.as_p }}
+      {% csrf_token %}
+      {{ form.as_p }}
       <button type="submit" class="signin-button">Sign In</button>
     </form>
+    <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
   </div>
 </div>
 {% endblock %}

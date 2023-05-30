@@ -1,7 +1,10 @@
-{% extends 'accounts/base.html' %} {% block content %}
-<h1>Request Maintenance</h1>
-<form method="POST">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Submit</button>
-</form>
+
+
+{% block content %}
+  <h1>Maintenance Request</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Request</button>
+  </form>
 {% endblock %}

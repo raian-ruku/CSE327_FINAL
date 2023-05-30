@@ -1,32 +1,86 @@
-/* style.css */
+/* static/accounts/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+body {
+  background-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
 
-/* Main content */
-main {
-  background-color: #f9f9f9;
+header {
+  background-color: #111;
   padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  margin: 0;
+  color: #fff;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #111;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+main {
+  padding: 40px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .accounts-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: -10px; /* Add negative margin to create spacing between apartment items */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
 }
 
 .apartment-item {
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #222;
   padding: 20px;
-  width: calc(33.33% - 20px); /* Adjust the width as per your preference */
-  box-sizing: border-box;
-  margin: 10px; /* Add margin to create spacing between apartment items */
+  border-radius: 4px;
 }
 
-.apartment-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+h3 {
+  font-size: 18px;
+  margin: 0;
+  color: #fff;
 }
 
-/* Other styles as per your requirement */
+p {
+  margin: 10px 0;
+  color: #ddd;
+}
+
+.details-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #111;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+footer {
+  background-color: #111;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+}

@@ -1,49 +1,67 @@
-/* custom.css */
+/* static/accounts/login.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body {
+  background-color: #000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
 .signin-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('path/to/background-image.jpg');
-  background-size: cover;
+  background-color: #000;
 }
 
 .signin-card {
-  max-width: 400px;
-  padding: 40px;
-  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  background-color: #111;
   border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center; /* Center the content horizontally */
 }
 
 .signin-title {
+  color: #fff;
   font-size: 24px;
-  color: #ff4081;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .signin-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.signin-form p {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .signin-button {
-  padding: 12px 24px;
-  background-color: #ff4081;
-  color: #ffffff;
+  background-color: #111;
+  color: #fff;
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  display: block; /* Center the button horizontally */
+  margin: 0 auto; /* Center the button horizontally */
 }
 
 .signin-button:hover {
-  background-color: #e63b6f;
+  background-color: #222;
 }
 
-/* Include Material Design CSS or custom styles to further enhance the design */
+p {
+  color: #fff;
+  font-size: 14px;
+  margin-top: 1rem;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #aaa;
+  text-decoration: underline;
+}

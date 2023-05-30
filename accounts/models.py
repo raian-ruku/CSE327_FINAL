@@ -89,9 +89,27 @@ class Tenant(models.Model):
     apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
     # Add additional fields as per your requirements
 
+
 class MaintenanceRequest(models.Model):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=255)
-    description = models.TextField()
-    is_completed = models.BooleanField(default=False)
-    # Add additional fields as per your requirements
+    tenant = models.ForeignKey(WebUser, on_delete=models.CASCADE, related_name='maintenance_requests')
+    owner = models.ForeignKey(WebUser, on_delete=models.CASCADE, related_name='owner_requests')
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject
+
+class Chat(models.Model):
+    owner = models.ForeignKey(WebUser, on_delete=models.CASCADE, related_name='owner_chats')
+    tenant = models.ForeignKey(WebUser, on_delete=models.CASCADE, related_name='tenant_chats')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    sender = models.ForeignKey(WebUser, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"Message #{self.id}"
