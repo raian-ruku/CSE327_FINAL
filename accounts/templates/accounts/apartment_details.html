@@ -1,10 +1,10 @@
-<!-- templates/accounts/apartment_details.html -->
- {% block content %} {% load static %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'accounts/apartment_details.css' %}"
-/>
+
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/apartment_details.css' %}">
+
 <div class="container">
   <h2 class="apartment-heading">Apartment Details</h2>
   <div class="card">
@@ -22,4 +22,5 @@
     </div>
   </div>
 </div>
+
 {% endblock %}

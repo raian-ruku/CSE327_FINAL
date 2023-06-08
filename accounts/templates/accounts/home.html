@@ -1,6 +1,5 @@
-<!-- templates/accounts/home.html -->
-
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,38 +8,44 @@
 </head>
 <body>
   <header>
-    <h1>Welcome to the Apartment Management System</h1>
-    <div class="buttons">
-      {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}" class="button">Sign Out</a>
-      <a href="{% url 'profile' %}" class="button">Profile</a>
-      {% else %}
-      <a href="{% url 'login' %}" class="button">Sign In</a>
-      <a href="{% url 'signup' %}" class="button">Sign Up</a>
-      {% endif %}
-    </div>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      </div>
+      <div class="navbar-right">
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+          <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="navbar-link">Sign In</a>
+          <a href="{% url 'signup' %}" class="navbar-link">Sign Up</a>
+        {% endif %}
+      </div>
+    </nav>
+    <h1>Welcome to the RentEase</h1>
   </header>
 
   <main>
     <h2>Vacant Apartments</h2>
     {% if accounts %}
-    <div class="accounts-container">
-      {% for apartment in accounts %}
-      <div class="apartment-item">
-        <h3>{{ apartment.address }}</h3>
-        <p>Rent: ৳{{ apartment.rent }}</p>
-        <p>{{ apartment.short_description }}</p>
-        <a href="{% url 'apartment_details' apartment.id %}" class="details-button">View Details</a>
+      <div class="apartment-container">
+        {% for apartment in accounts %}
+          <div class="apartment-item">
+            <h3 class="apartment-address">{{ apartment.address }}</h3>
+            <p class="apartment-rent">Rent: ৳{{ apartment.rent }}</p>
+            <p class="apartment-description">{{ apartment.short_description }}</p>
+            <a href="{% url 'apartment_details' apartment.id %}" class="details-button">View Details</a>
+            <a href="{% url 'plan_visit' apartment.id %}" class="visit-button">Plan a Visit</a>
+          </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
     {% else %}
-    <p>No vacant apartments available.</p>
+      <p class="no-apartments-message">No vacant apartments available.</p>
     {% endif %}
   </main>
 
   <footer>
-    <p>&copy; 2023 Apartment Management System. All rights reserved.</p>
+    <p>&copy; 2023 Rentease. All rights reserved.</p>
   </footer>
 </body>
 </html>

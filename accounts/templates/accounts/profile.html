@@ -14,7 +14,20 @@
       <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
     </div>
     <div class="navbar-right">
-      
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
+  {% else %}
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+<a href="{% url 'profile' %}" class="navbar-link" id="apartments-button">Apartments</a>
+<a href="{% url 'submit_files' %}" class="navbar-link" id="files-button">Submit Files</a>
+<a href="{% url 'make_request' %}" class="navbar-link" id="requests-button">Maintenance Requests</a>
+<a href="{% url 'owner_info' %}" class="navbar-link" id="owner-info-button">Owner Information</a>
+
+    </div>
+    <div class="navbar-right">
       <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
     </div>
   </nav>
@@ -52,15 +65,28 @@
 
   {% elif user_type == 'tenant' %}
   <!-- Tenant-specific UI -->
-  <div class="tenant-section">
-    <h2 class="tenant-section-title">Owner Information</h2>
-    <p class="owner-username">Owner: {{ owner.username }}</p>
-    <p class="owner-email">Owner Email: {{ owner.email }}</p>
-    <p class="owner-first-name">Owner First Name: {{ owner.first_name }}</p>
-    <p class="owner-last-name">Owner Last Name: {{ owner.last_name }}</p>
-    <p class="owner-mobile-number">Owner Mobile Number: {{ owner.mobile_number }}</p>
-    <!-- Include other owner-related fields as needed -->
-    <a href="{% url 'make_request' %}" class="make-request-button">Make Maintenance Request</a>
+  <div class="dashboard-container">
+    <div id="apartments-section" class="dashboard-section">
+      <h2 class="section-title">All Apartments</h2>
+      {% if apartments %}
+      <div class="apartment-container">
+        
+        {% for apartment in apartments2 %}
+        <div class="apartment-item">
+          <h3 class="apartment-address">{{ apartment.address }}</h3>
+          <p class="apartment-rent">Rent: ৳{{ apartment.rent }}</p>
+          <p class="apartment-description">{{ apartment.short_description }}</p>
+          <a href="{% url 'apartment_details' apartment.id %}" class="details-button">View Details</a>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="no-apartments-message">No apartments available.</p>
+      {% endif %}
+    </div>
+    
+   
+    
   </div>
   {% endif %}
 </div>

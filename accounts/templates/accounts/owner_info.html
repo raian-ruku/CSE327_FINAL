@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/owner_info.css' %}">
+  <title>Owner Information</title>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'profile' %}" class="navbar-link" id="apartments-button">Apartments</a>
+      <a href="{% url 'home' %}" class="navbar-link" id="files-button">Submit Files</a>
+      <a href="{% url 'make_request' %}" class="navbar-link" id="requests-button">Maintenance Requests</a>
+      <a href="{% url 'owner_info' %}" class="navbar-link" id="owner-info-button">Owner Information</a>
+    </div>
+    <div class="navbar-right">
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
+  <div class="profile-container">
+    
+    <h1 class="profile-header">Owner Information</h1>
+    <div class="owner-info">
+      <p class="owner-section-title">Username: {{ owner.username }}</p>
+      <p class="owner-section-title">Email: {{ owner.email }}</p>
+      <p class="owner-section-title">First Name: {{ owner.first_name }}</p>
+      <p class="owner-section-title">Last Name: {{ owner.last_name }}</p>
+      <p class="owner-section-title">Mobile Number: {{ owner.mobile_number }}</p>
+      <!-- Include other owner-related fields as needed -->
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/visit.css' %}">
+  <h1>Plan a Visit</h1>
+  <form method="post" class="visit-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="submit-button">Submit</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/tenant_file.css' %}">
+<div class="file-container">
+  <h1 class="file-header">Tenant File</h1>
+  <a href="{{ file_path }}" class="file-download-link">Download File</a>
+</div>
+{% endblock %}

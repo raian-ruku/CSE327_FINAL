@@ -23,6 +23,6 @@
     <!-- Include other tenant-related fields as needed -->
   </ul>
 
-  <a href="{% url 'start_chat' tenant.username %}" class="chat-button">Start Chat</a>
-  </div>
+  <a href="{% url 'tenant_file' tenant.username %}" class="file-link">View Uploaded Documents</a>
+</div>
 {% endblock %}

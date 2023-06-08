@@ -3,13 +3,17 @@
 {% block content %}
   
 <link rel="stylesheet" type="text/css" href="{% static 'accounts/tl.css' %}">
+<div class="list-container">
  <nav class="navbar">
     <div class="navbar-left">
       <a href="{% url 'home' %}" class="navbar-link">Home</a>
-      <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+      <a href="{% url 'tenants_list' %}" class="navbar-link">View Tenants List</a>
+      <a href="{% url 'vacancy_posting' %}" class="navbar-link">Post Vacancy</a>
+      <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
     </div>
     <div class="navbar-right">
-      <a href="{% url 'logout' %}" class="navbar-link">Logout</a>
+      
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
     </div>
   </nav>
   <h1 class="page-title">Tenants List</h1>
@@ -22,4 +26,5 @@
       <li class="no-tenants">No tenants found.</li>
     {% endfor %}
   </ul>
+  </div>
 {% endblock %}

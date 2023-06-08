@@ -48,6 +48,8 @@ class WebUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    files = models.FileField(upload_to='files/', blank=True, null=True)  # Add this field
+
  
 
     objects = WebUserManager()
@@ -113,3 +115,15 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"Message #{self.id}"
+    
+class Visit(models.Model):
+    apartment = models.ForeignKey(Apartment, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    mobile_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    nid_number = models.CharField(max_length=20)
+    visit_date = models.DateField()
+    visit_time = models.TimeField()
+
+    def __str__(self):
+        return f"Visit for {self.apartment.address} by {self.name}"

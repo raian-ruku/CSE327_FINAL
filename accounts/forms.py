@@ -1,9 +1,10 @@
 # forms.py
 import base64
+from datetime import timezone, datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import MaintenanceRequest, WebUser, Apartment
+from .models import MaintenanceRequest, Visit, WebUser, Apartment
 from django.contrib.auth.forms import AuthenticationForm
 
 USER_TYPE_CHOICES = [
@@ -19,8 +20,8 @@ class UserSignUpForm(UserCreationForm):
     mobile_number = forms.CharField(max_length=15)
     email = forms.EmailField(max_length=254)
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
-    owner_unique_id = forms.CharField(max_length=30, required=False)
-    owner_id = forms.CharField(max_length=30, required=False)
+    owner_unique_id = forms.CharField(max_length=30, required=True)
+    owner_id = forms.CharField(max_length=30, required=True)
     nid = forms.CharField(max_length=30, required=False)
     username = forms.CharField(max_length=150)
 
@@ -70,3 +71,24 @@ class MaintenanceRequestForm(forms.ModelForm):
     class Meta:
         model = MaintenanceRequest
         fields = ['subject', 'message']
+
+class VisitForm(forms.ModelForm):
+
+    def clean_visit_date(self):
+        visit_date = self.cleaned_data.get('visit_date')
+        
+        # Check if the visit_date is in the past
+        if visit_date and visit_date < timezone.now().date():
+            raise forms.ValidationError("Invalid visit date. Please select a future date.")
+    class Meta:
+        model = Visit
+        fields = ['name', 'mobile_number', 'email', 'nid_number', 'visit_date', 'visit_time']
+        widgets = {
+            'visit_date': forms.DateInput(attrs={'type': 'date'}),
+            'visit_time': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
+class FileSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = WebUser
+        fields = ['files']

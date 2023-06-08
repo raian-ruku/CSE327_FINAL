@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Apartment, Tenant, MaintenanceRequest, Chat, Message
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from .forms import MaintenanceRequestForm, UserSignUpForm
+from .forms import FileSubmissionForm, MaintenanceRequestForm, UserSignUpForm, VisitForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Apartment
 from .forms import VacancyPostingForm
@@ -193,6 +193,16 @@ def apartment_edit(request, apartment_id):
     }
     
     return render(request, 'accounts/apartment_edit.html', context)
+@login_required
+def owner_info(request):
+    tenant = WebUser.objects.get(username=request.user.username, user_type='tenant')
+    owner = WebUser.objects.get(owner_unique_id=tenant.owner_id, user_type='owner')
+
+    context = {
+        'owner': owner,
+    }
+
+    return render(request, 'accounts/owner_info.html', context)
 
 @login_required
 def tenant_details(request, username):
@@ -246,10 +256,21 @@ def apartment_delete(request, pk):
 
 def logout_view(request):
     logout(request)
-    return redirect(reverse('home'))
+    return redirect('home')
 
 
-
+def plan_visit(request, apartment_id):
+    if request.method == 'POST':
+        form = VisitForm(request.POST)
+        if form.is_valid():
+            visit = form.save(commit=False)
+            visit.apartment_id = apartment_id  # Assign the apartment_id
+            visit.save()
+            return redirect('home')
+    else:
+        form = VisitForm()
+    
+    return render(request, 'accounts/plan_visit.html', {'form': form})
 
 
 @login_required
@@ -266,6 +287,8 @@ def profile(request):
     # Retrieve the owner information
     owner = WebUser.objects.filter(owner_unique_id=web_user.owner_id).first()
     apartments = Apartment.objects.filter(owner__username=username)
+    # get list of all apartments
+    apartments2 = Apartment.objects.filter(is_vacant=True)
     # Get the chat associated with the tenant
     chat = Chat.objects.filter(tenant=web_user).first()
 
@@ -278,15 +301,38 @@ def profile(request):
         'user_type': user_type,
         'owner': owner,
         'apartments': apartments,  # Pass the apartments to the template
+        'apartments2': apartments2,
         'chat': chat,  # Pass the chat object to the template
     }
 
     return render(request, 'accounts/profile.html', context)
 
 
+@login_required
+def submit_files(request):
+    if request.method == 'POST':
+        form = FileSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            current_user.files = form.cleaned_data['files']
+            current_user.save()
+            
+            return redirect('profile')
+    else:
+        form = FileSubmissionForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/submit_files.html', context)
 
 
+def tenant_file(request, username):
+    try:
+        tenant = WebUser.objects.get(username=username)
+        file_path = tenant.files.path  # Use 'path' instead of 'url'
+    except WebUser.DoesNotExist:
+        return render(request, 'error.html', {'message': 'Tenant does not exist'})
 
-
-
+    return render(request, 'tenant_file.html', {'file_path': file_path})
 # Add any other views you require
