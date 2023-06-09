@@ -19,6 +19,7 @@ from .forms import WebUserLoginForm
 from django.urls import reverse
 from notifications.signals import notify
 from notifications.models import Notification
+from sweetify import sweetify
 
  
 from django.contrib.auth import logout
@@ -144,6 +145,7 @@ def make_request(request):
     return render(request, 'accounts/make_request.html', context)
 
 
+
 @login_required
 def owner_requests(request):
     owner = request.user
@@ -153,6 +155,39 @@ def owner_requests(request):
         'owner_requests': owner_requests,
     }
     return render(request, 'accounts/owner_requests.html', context)
+
+@login_required
+def pending_requests(request):
+    tenant = request.user
+    pending_requests = MaintenanceRequest.objects.filter(tenant=tenant).order_by('-created_at')
+
+    context = {
+        'pending_requests': pending_requests,
+    }
+    return render(request, 'accounts/pending_requests.html', context)
+
+def approve_request(request, request_id):
+    maintenance_request = get_object_or_404(MaintenanceRequest, pk=request_id)
+    maintenance_request.status = 'approved'
+    maintenance_request.save()
+    
+    return redirect('owner_requests')
+
+@login_required
+def reject_request(request, request_id):
+    if request.method == 'POST':
+        rejection_reason = request.POST.get('rejection_reason')
+        try:
+            maintenance_request = MaintenanceRequest.objects.get(pk=request_id)
+            maintenance_request.status = 'rejected'
+            maintenance_request.rejection_reason = rejection_reason
+            maintenance_request.save()
+            return redirect('owner_requests')
+        except MaintenanceRequest.DoesNotExist:
+            # Handle the case when the request does not exist
+            # You can raise an exception, redirect to an error page, or take any other appropriate action
+            pass
+    return redirect('owner_requests')
     
 def tenants_list(request):
     owner = WebUser.objects.get(username=request.user.username, user_type='owner')
@@ -334,5 +369,5 @@ def tenant_file(request, username):
     except WebUser.DoesNotExist:
         return render(request, 'error.html', {'message': 'Tenant does not exist'})
 
-    return render(request, 'tenant_file.html', {'file_path': file_path})
+    return render(request, 'accounts/tenant_file.html', {'file_path': file_path})
 # Add any other views you require

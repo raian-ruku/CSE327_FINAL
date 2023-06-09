@@ -1,8 +1,10 @@
 {% load static %}
-
+{% load sweetify %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% sweetify %}
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="{% static 'accounts/maintenance.css' %}">
@@ -13,10 +15,12 @@
   <nav class="navbar">
     <div class="navbar-left">
       <a href="{% url 'home' %}" class="navbar-link">Home</a>
-      <a href="{% url 'profile' %}" class="navbar-link">Profile</a>
+      <a href="{% url 'tenants_list' %}" class="navbar-link">View Tenants List</a>
+      <a href="{% url 'vacancy_posting' %}" class="navbar-link">Post Vacancy</a>
+      <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
     </div>
     <div class="navbar-right">
-      <a href="{% url 'logout' %}" class="navbar-link">Logout</a>
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
     </div>
   </nav>
 
@@ -29,7 +33,22 @@
             <strong>Subject:</strong> {{ request.subject }}<br>
             <strong>Tenant:</strong> {{ request.tenant }}<br>
             <strong>Message:</strong> {{ request.message }}<br>
-            <strong>Created at:</strong> {{ request.created_at }}
+            <strong>Created at:</strong> {{ request.created_at }}<br>
+            <strong>Status:</strong> {{ request.get_status_display }}
+            {% if request.status == 'rejected' %}
+              <br><strong>Rejection Reason:</strong> {{ request.rejection_reason }}
+            {% endif %}
+            {% if request.status == 'pending' %}
+              <form method="post" action="{% url 'approve_request' request.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="approve-button">Approve</button>
+              </form>
+              <form method="post" action="{% url 'reject_request' request.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.pk }}"> <!-- Include a hidden field for the request ID -->
+                <button type="button" class="reject-button" onclick="showRejectionReasonForm('{{ request.pk }}')">Reject</button>
+              </form>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
@@ -37,5 +56,40 @@
       <p>No maintenance requests found.</p>
     {% endif %}
   </div>
+
+  <!-- Rejection Reason Form (Initially Hidden) -->
+  <div id="rejectionReasonForm" style="display: none;">
+    <input type="text" id="rejectionReasonInput" placeholder="Rejection Reason" required>
+    <button type="button" onclick="submitRejectionReason()">Submit Rejection</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function showRejectionReasonForm(requestId) {
+      document.getElementById('rejectionReasonForm').style.display = 'block';
+      document.getElementById('rejectionReasonForm').dataset.requestId = requestId;
+    }
+
+    function submitRejectionReason() {
+      const requestId = document.getElementById('rejectionReasonForm').dataset.requestId;
+      const rejectionReason = document.getElementById('rejectionReasonInput').value;
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = `{% url 'reject_request' 0 %}`.replace('0', requestId);
+      const csrfToken = document.createElement('input');
+      csrfToken.type = 'hidden';
+      csrfToken.name = 'csrfmiddlewaretoken';
+      csrfToken.value = '{{ csrf_token }}';
+      form.appendChild(csrfToken);
+      const rejectionReasonInput = document.createElement('input');
+      rejectionReasonInput.type = 'hidden';
+      rejectionReasonInput.name = 'rejection_reason';
+      rejectionReasonInput.value = rejectionReason;
+      form.appendChild(rejectionReasonInput);
+      document.body.appendChild(form);
+      form.submit();
+    }
+  </script>
+  <script src="sweetalert2.all.min.js"></script>
 </body>
 </html>

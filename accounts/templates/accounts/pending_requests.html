@@ -1,0 +1,19 @@
+
+{% block content %}
+  <h1>Pending Requests</h1>
+  {% if pending_requests %}
+    <ul>
+      {% for request in pending_requests %}
+        <li>
+          <strong>Subject:</strong> {{ request.subject }}<br>
+          <strong>Status:</strong> {{ request.get_status_display }}<br>
+          <strong>Message:</strong> {{ request.message }}<br>
+          <strong>Created at:</strong> {{ request.created_at }}<br>
+          <strong>Rejection Reason:</strong> {{ request.rejection_reason }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No pending requests found.</p>
+  {% endif %}
+{% endblock %}
