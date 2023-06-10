@@ -1,104 +1,56 @@
-<!-- templates/accounts/signup.html -->
+{% load static %}
 
- {% load static %} {% block content %}
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'accounts/signup.css' %}"
-/>
-<nav class="navbar">
-  <a href="{% url 'home' %}" class="navbar-link">Home</a>
-  <a href="{% url 'login' %}" class="navbar-link">Sign In</a>
-</nav>
-<h2>Sign Up</h2>
-<form method="post" class="signup-form">
-  {% csrf_token %} {{ form.non_field_errors }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/signup.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <title>Signup</title>
+</head>
+<body>
+  <div class="content">
+    <h1>Signup</h1>
+    <p>Select User Type:</p>
+    <button class="user-type-button" onclick="selectUserType('owner')">Owner</button>
+    <button class="user-type-button" onclick="selectUserType('tenant')">Tenant</button>
 
-  <div class="form-group">
-    <label for="{{ form.username.id_for_label }}">Username:</label>
-    {{ form.username }} {{ form.username.errors }}
+    <div id="signupForm" style="display: none;">
+      <form method="post" action="{% url 'signup' %}">
+        {% csrf_token %}
+        <input type="hidden" id="userTypeInput" name="user_type" value="">
+        <!-- Include other input fields for user data here -->
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password1" placeholder="Password" required>
+        <input type="password" name="password2" placeholder="Confirm Password" required>
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="mobile_number" placeholder="Mobile Number" required>
+        <input type="text" id="ownerUniqueId" name="owner_unique_id" placeholder="Owner Unique ID" required>
+        <input type="text" id="ownerId" name="owner_id" placeholder="Owner ID" style="display: none;" required>
+        <input type="text" name="nid" placeholder="NID">
+        <button type="submit">Signup</button>
+      </form>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="{{ form.first_name.id_for_label }}">First Name:</label>
-    {{ form.first_name }} {{ form.first_name.errors }}
-  </div>
+  <!-- JavaScript -->
+  <script>
+    function selectUserType(userType) {
+      document.getElementById('userTypeInput').value = userType;
 
-  <div class="form-group">
-    <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
-    {{ form.last_name }} {{ form.last_name.errors }}
-  </div>
+      if (userType === 'owner') {
+        document.getElementById('ownerUniqueId').style.display = 'none';
+        document.getElementById('ownerId').style.display = 'block';
+      } else {
+        document.getElementById('ownerUniqueId').style.display = 'block';
+        document.getElementById('ownerId').style.display = 'none';
+      }
 
-  <div class="form-group">
-    <label for="{{ form.mobile_number.id_for_label }}">Mobile Number:</label>
-    {{ form.mobile_number }} {{ form.mobile_number.errors }}
-  </div>
-
-  <div class="form-group">
-    <label for="{{ form.email.id_for_label }}">Email:</label>
-    {{ form.email }} {{ form.email.errors }}
-  </div>
-
-  <div class="form-group">
-    <label for="{{ form.password1.id_for_label }}">Password:</label>
-    {{ form.password1 }} {{ form.password1.errors }}
-  </div>
-
-  <div class="form-group">
-    <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
-    {{ form.password2 }} {{ form.password2.errors }}
-  </div>
-
-  <div class="form-group">
-    <label for="{{ form.user_type.id_for_label }}">User Type:</label>
-    {{ form.user_type }} {{ form.user_type.errors }}
-  </div>
-
-  <div id="owner-fields" class="form-group" style="display: none">
-    <label for="{{ form.owner_unique_id.id_for_label }}"
-      >Owner Unique ID:</label
-    >
-    {{ form.owner_unique_id }} {{ form.owner_unique_id.errors }}
-  </div>
-
-  <div id="tenant-fields" class="form-group" style="display: none">
-    <label for="{{ form.owner_id.id_for_label }}">Owner's ID:</label>
-    {{ form.owner_id }} {{ form.owner_id.errors }}
-  </div>
-
-  <div id="nid-fields" class="form-group" style="display: none">
-    <label for="{{ form.nid.id_for_label }}">NID:</label>
-    {{ form.nid }} {{ form.nid.errors }}
-  </div>
-
-  <button type="submit" class="signup-button">Sign Up</button>
-</form>
-
-<script>
-  // Show/hide additional fields based on user type selection
-  const userTypeSelect = document.querySelector(
-    "#{{ form.user_type.id_for_label }}"
-  );
-  const ownerFieldsDiv = document.querySelector("#owner-fields");
-  const tenantFieldsDiv = document.querySelector("#tenant-fields");
-  const nidFieldsDiv = document.querySelector("#nid-fields");
-
-  userTypeSelect.addEventListener("change", () => {
-    const selectedUserType = userTypeSelect.value;
-
-    if (selectedUserType === "owner") {
-      ownerFieldsDiv.style.display = "block";
-      tenantFieldsDiv.style.display = "none";
-      nidFieldsDiv.style.display = "block";
-    } else if (selectedUserType === "tenant") {
-      ownerFieldsDiv.style.display = "none";
-      tenantFieldsDiv.style.display = "block";
-      nidFieldsDiv.style.display = "block";
-    } else {
-      ownerFieldsDiv.style.display = "none";
-      tenantFieldsDiv.style.display = "none";
-      nidFieldsDiv.style.display = "none";
+      document.getElementById('signupForm').style.display = 'block';
     }
-  });
-</script>
-{% endblock %}
+  </script>
+</body>
+</html>

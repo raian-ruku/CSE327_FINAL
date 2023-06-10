@@ -7,28 +7,20 @@ from django.contrib.auth.models import User
 from .models import MaintenanceRequest, Visit, WebUser, Apartment
 from django.contrib.auth.forms import AuthenticationForm
 
-USER_TYPE_CHOICES = [
-    ('', 'Select User Type'),
-    ('owner', 'Owner'),
-    ('tenant', 'Tenant'),
-    ('renter', 'Renter'),
-]
+
 
 class UserSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     mobile_number = forms.CharField(max_length=15)
     email = forms.EmailField(max_length=254)
-    user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
-    owner_unique_id = forms.CharField(max_length=30, required=True)
-    owner_id = forms.CharField(max_length=30, required=True)
+    owner_id = forms.CharField(max_length=30, required=False)
+    owner_unique_id = forms.CharField(max_length=30, required=False)
     nid = forms.CharField(max_length=30, required=False)
-    username = forms.CharField(max_length=150)
 
     class Meta:
         model = WebUser
-        fields = ['username','first_name', 'last_name', 'mobile_number', 'email', 'password1', 'password2', 'user_type', 'owner_unique_id', 'owner_id', 'nid']
-
+        fields = ['username', 'first_name', 'last_name', 'mobile_number', 'email', 'password1', 'password2', 'owner_id', 'owner_unique_id', 'nid']
 
 class VacancyPostingForm(forms.ModelForm):
     class Meta:

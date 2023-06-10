@@ -17,6 +17,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import WebUserLoginForm
 from django.urls import reverse
+from django.views.generic import FormView
 from notifications.signals import notify
 from notifications.models import Notification
 from sweetify import sweetify
@@ -42,22 +43,14 @@ class HomePageView(ListView):
             context['first_name'] = web_user.first_name
         return context
     
-class SignUpView(CreateView):
+
+class SignUpView(FormView):
+    template_name = 'accounts/signup.html'
     form_class = UserSignUpForm
     success_url = reverse_lazy('login')
-    template_name = 'accounts/signup.html'
 
     def form_valid(self, form):
-        web_user = form.save(commit=False)
-        web_user.username = form.cleaned_data['username']
-        web_user.email = form.cleaned_data['email']
-        web_user.first_name = form.cleaned_data['first_name']
-        web_user.last_name = form.cleaned_data['last_name']
-        web_user.mobile_number = form.cleaned_data['mobile_number']
-        web_user.user_type = form.cleaned_data['user_type']
-        # Set other fields accordingly
-
-        web_user.save()
+        form.save()
         return super().form_valid(form)
     
 class WebUserLoginForm(AuthenticationForm):
