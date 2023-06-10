@@ -2,104 +2,124 @@
 
 body {
   background-color: #000;
-  font-family: 'Roboto', sans-serif;
-  color: #fff;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  color: #fff;
 }
 
 .profile-container {
-  background-color: #000;
-  color: #fff;
-  padding: 2rem;
+  display: flex;
+  width: 100%;
+  height: 100vh;
 }
 
 .navbar {
-  background-color: #111;
-  padding: 1rem;
+  background-color: #222;
+  padding: 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.navbar-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .navbar-link {
   color: #fff;
   text-decoration: none;
-  margin-right: 1rem;
-  font-size: 16px;
+  margin-top: 40px; 
 }
 
-.navbar-right {
-  display: flex;
-  align-items: center;
+#mr{
+margin-bottom: 40px;
+}
+
+.profile-content {
+  flex: 1;
+  padding: 20px;
 }
 
 .profile-header {
-  text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 20px;
 }
 
 .profile-username {
   font-size: 24px;
+  margin: 0;
+  color: #fff;
+  margin-top: 30px;
 }
 
 .profile-email {
   font-size: 16px;
-  opacity: 0.8;
+  margin: 0;
+  color: #fff;
 }
 
-.owner-section-title {
-  font-size: 20px;
-  margin-bottom: 1rem;
+.owner-section,
+.dashboard-section {
+  margin-bottom: 20px;
 }
+
+#owner-info-button{
+margin-bottom: 40px;
+}
+
+
 
 .apartment-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-gap: 1rem;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .apartment-item {
-  background-color: #111;
-  padding: 1rem;
+  background-color: #222;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  flex: 1 1 300px;
 }
 
 .apartment-address {
   color: #fff;
   font-size: 16px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
 }
 
 .apartment-rent {
   color: #fff;
   font-size: 14px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
 }
 
 .apartment-description {
   color: #fff;
   font-size: 14px;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
 .details-button,
 .edit-button,
-.delete-button {
+.delete-button, .visit-button {
   display: inline-block;
-  margin-right: 0.5rem;
-  padding: 0.5rem 1rem;
+  margin-right: 10px;
+  padding: 10px;
   border-radius: 4px;
   font-size: 14px;
   text-decoration: none;
   color: #fff;
-  background-color: #111;
+  background-color: #000;
 }
 
+
 .no-apartments-message {
-  color: #fff;
+  color: #000;
   font-size: 16px;
 }
 

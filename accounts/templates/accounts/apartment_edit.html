@@ -3,6 +3,17 @@
 {% load static %}
 
 {% block content %}
+  <nav class="navbar">
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-link">Home</a>
+      <a href="{% url 'tenants_list' %}" class="navbar-link">View Tenants List</a>
+      <a href="{% url 'vacancy_posting' %}" class="navbar-link">Post Vacancy</a>
+      <a href="{% url 'owner_requests' %}" class="navbar-link">View Maintenance Requests</a>
+    </div>
+    <div class="navbar-right">
+      <a href="{% url 'logout' %}" class="navbar-link">Sign Out</a>
+    </div>
+  </nav>
   <h1>Edit Apartment</h1>
   
   <form method="post">
@@ -13,7 +24,19 @@
     <label for="rent">Rent:</label>
     <input type="number" name="rent" id="rent" value="{{ apartment.rent }}" required>
     
+    <label for="area">Area:</label>
+    <input type="tel" name="area" id="area" value="{{ apartment.area }}" required>
+
+    <label for="bedrooms">Bedroom:</label>
+    <input type="tel" name="bedrooms" id="bedrooms" value="{{ apartment.bedrooms }}" required>
+
+    <label for="washrooms">Washroom:</label>
+    <input type="tel" name="washrooms" id="washrooms" value="{{ apartment.washrooms }}" required>
+    
     <label for="description">Description:</label>
+    <textarea name="description" id="description" required>{{ apartment.description }}</textarea>
+
+    <label for="description">Short Description:</label>
     <textarea name="description" id="description" required>{{ apartment.short_description }}</textarea>
     
     <button type="submit">Save Changes</button>

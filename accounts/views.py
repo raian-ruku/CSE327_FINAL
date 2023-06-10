@@ -217,6 +217,8 @@ def apartment_edit(request, apartment_id):
         # Retrieve the updated data from the form and save it to the apartment object
         # Example:
         apartment.address = request.POST['address']
+        apartment.bedrooms = request.POST['bedrooms']
+        apartment.washrooms = request.POST['washrooms']
         apartment.rent = request.POST['rent']
         apartment.short_description = request.POST['description']
         apartment.save()
